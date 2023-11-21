@@ -1,0 +1,30 @@
+<?php require('template/header.phtml') ?>
+<link href="/clientserver/css/myStyle.css" rel="stylesheet">
+
+
+<h3 class="text-center">Anyone you know?</h3>
+
+<table id="table" class="table table-hover">
+    <thead> <tr> <th class="h3 text-center">Username</th>  <th class="h3 text-center">Photo</th><th class="h3 text-center">Accept request</th></tr>
+    </thead>
+
+    <tbody>
+    <?php foreach ($view->pendFriends as $pendFriendData) {
+        echo   '<tr> <td class="h4 text-center">' .   $pendFriendData->getUsername() .
+            //'</td> <td class="h4 text-center">' . $pendFriendData->getFirstName() .
+            //'</td> <td class="h4 text-center">' . $pendFriendData->getLastName() . //Think these details should be hidden till friendship formed
+            //'</td> <td class="h4 text-center">' . $pendFriendData->getEmail() .
+            '</td> <td><img class="center-block" src="' . $pendFriendData->getImgPath() .'" height=150 width=150></td></img>'.
+            '</td>';
+                if ($view->friender->whoSentReq($_SESSION["login"],$pendFriendData->getUsername()) == $pendFriendData->getUsername()) // finds out if the current user sent or received the friend request
+                    {echo '<td class="h4 text-center"><form method="post" action="" class="form text-primary"><input id = "btn" class="btn-primary btn-block btn-group-vertical" type="submit" name="submit" value="Befriend '.$pendFriendData->getUsername().'"><br><input class="btn-block btn-danger" id="btn" type="submit" name="decline" value="Reject '.$pendFriendData->getUsername().'"></form></td></tr>';}
+                else echo '<td class="h4 text-center">Pending accept</td></td> </td> </tr>';
+    } ?>
+    </tbody>
+    <?php
+    echo $view->setLoc;
+    echo ' <textarea class="hidden" id="lat" name="lat"></textarea>
+           <textarea class="hidden" id="long" name="long"></textarea>
+           <textarea class="hidden" id="message" name="long"></textarea>';
+    ?>
+<?php require('template/footer.phtml') ?>

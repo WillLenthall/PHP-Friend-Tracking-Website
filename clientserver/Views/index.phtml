@@ -1,0 +1,38 @@
+<?php require('template/header.phtml');?>
+<link href="/clientserver/css/myStyle.css" rel="stylesheet">
+
+<h2 class="text-center">Other users</h2>
+<?php if (isset($_SESSION["login"]))
+{
+    echo '<h4 class="text-center">Head over to the search tab to add some friends</h4>';
+    echo $view->setLoc;
+    echo ' <textarea class="hidden" id="lat" name="lat"></textarea>
+           <textarea class="hidden" id="long" name="long"></textarea>
+           <textarea class="hidden" id="message" name="long"></textarea>';
+
+}
+?>
+
+
+<div>
+
+    <table id="table" class="table table-hover">
+        <thead> <tr> <th class="h3 text-center">Username</th>  <th class="h3 text-center">Photo</th></tr>
+        </thead>
+
+        <tbody>
+        <?php foreach ($view->users as $userData) {
+            echo   '<tr> <td class="h4 text-center">' .   $userData->getUsername() .
+
+             //removed names and emails to protect info
+
+                '</td> <td><img class="center-block" src="' . $userData->getImgPath() .'" height=125 width=125></td></img>'.
+                '</td> </td> </tr>';
+        } ?>
+        </tbody></table>
+
+
+    </div>
+
+
+<?php require('template/footer.phtml') ?>

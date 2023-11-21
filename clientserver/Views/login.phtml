@@ -1,0 +1,19 @@
+<?php require('template/header.phtml') ?>
+<link href="/clientserver/css/myStyle.css" rel="stylesheet">
+
+<div class="col-md-8 col-md-offset-2">
+<h3>Please enter you log in details.</h3>
+
+
+            <form method="post" action="" class="form text-primary">
+                <label for="username">Username</label>
+                <input type="text" name="username">
+                <label for="password">Password</label>
+                <input type="text" name="password">
+                <input type="submit" name="loginbutton" value="Login">
+
+            </form>
+<div><p id="message">If you have been redirected from the registry page then your account has been successfully created.</p></div>
+
+</div>
+<?php require('template/footer.phtml') ?>

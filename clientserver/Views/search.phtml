@@ -1,0 +1,99 @@
+<?php require('template/header.phtml');?>
+<link href="/clientserver/css/myStyle.css" rel="stylesheet">
+
+<h2 class="text-center">Search for other users</h2>
+<form id="sub" class="text-center" method="post">
+
+    <input type="text" oninput="sendHint(this.value)" id="search"  name="search" placeholder="Search..">
+    <select name="livesearch" id="livesearch"></select>
+    <button type="submit" name="submit" class="glyphicon-search"></button>
+</form>
+<?php
+if (isset($_SESSION["login"])){
+    //displays the page differently depending on whether a user is logged in (whether add friend option is available)
+    echo '
+    <table id="table" class="table table-hover">
+        <thead> <tr> <th class="h3 text-center">Username</th>  <th class="h3 text-center">Photo</th><th class="h3 text-center">Add</th></tr>
+        </thead>
+
+        <tbody>';
+    //displays two tables of users, the first with relationship with current user (and not add button), the second with no relationship and an add button
+            foreach ($view->friendish as $userData) {
+            echo   '<tr> <td class="h4 text-center">' .   $userData->getUsername() .
+                    '</td> <td><img class="center-block" src="' . $userData->getImgPath() .'" height=100 width=100></td></img>'.
+                    '</td> </td> </tr>';
+        }
+            foreach ($view->others as $userData) {
+            echo   '<tr> <td class="h4 text-center">' .   $userData->getUsername() .
+                    '</td> <td><img class="center-block" src="' . $userData->getImgPath() .'" height=100 width=100></td></img>'.
+                    '<td class="h4 text-center"><form method="post" action="" class="form btn"><input class="btn-primary btn" type="submit" name="add" value="Add '.$userData->getUsername() .'"></form></td></tr>'.
+                    '</td> </td> </tr>';
+            }
+            echo $view->setLoc;
+            echo '<textarea class="hidden" id="lat" name="lat"></textarea>
+                  <textarea class="hidden" id="long" name="long"></textarea>
+                  <textarea class="hidden" id="message" name="long"></textarea>';
+
+}
+else {echo '
+    <table id="table" class="table table-hover">
+        <thead> <tr> <th class="h3 text-center">Username</th>  <th class="h3 text-center">Photo</th></tr>
+        </thead>
+
+        <tbody>';
+foreach ($view->users as $userData) {
+    echo   '<tr> <td class="h4 text-center">' .   $userData->getUsername() .
+        '</td> <td><img class="center-block" src="' . $userData->getImgPath() .'" height=100 width=100></td></img>'.
+        '</td> </td> </tr>';}}
+
+?>
+</tbody>
+<script>
+
+    function sendHint(input) {
+
+        var file = "livesearch.php";
+        //var input = document.getElementById("search").value;
+
+        if (input.length >1)
+        {
+        fetch (
+            file, {
+                method: "POST",
+                body : JSON.stringify({input}),
+                headers : {"Content-Type" : "application/json;charset=utf-8"}
+            }
+        ).then(res=>res.text()).then(function(resp) {
+            //document.getElementById("livesearch").innerHTML = resp;
+            var names = resp.split(",");
+            document.getElementById("livesearch").innerHTML = "";
+            for (var i = 0; i<names.length; i++) {
+                var opt = document.createElement('option');
+                names[i] = names[i].slice(1,-1);
+                opt.value = names[i];
+                opt.innerHTML = names[i];
+
+                if (i==0) {
+                    opt.value = names[i].slice(1,names[i].length);
+                    opt.innerHTML = names[i].slice(1,names[i].length);      //removes unwanted quotations/brackets
+                }
+                if (i == names.length-1) {
+                    opt.value = names[i].slice(0, -1);                      //removes unwanted quotations/brackets
+                    opt.innerHTML = names[i].slice(0, -1);
+                }
+
+                document.getElementById("livesearch").appendChild(opt);
+                //opt.onclick(function () {
+                //    document.getElementById("search").value = opt.value;    an attempt at filling the text box from the select box
+                //})
+            }
+            }
+        );}
+
+
+    }
+
+
+</script>
+
+        <?php require('template/footer.phtml') ?>

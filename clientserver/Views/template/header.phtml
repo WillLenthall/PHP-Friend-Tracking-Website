@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="friend finder system">
+    <meta name="author" content="Will Lenthall">
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="/clientserver/css/myStyle.css" rel="stylesheet">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!--Bootstrap stopped working when using local files after I had uploaded so i have added the CDN-->
+    <title>Friend Finder</title>
+</head>
+
+
+
+
+<?php
+
+if (!isset($_SESSION["login"]))
+    { //sets different options on the bar at the top based on whether a user is logged in
+        echo '
+<div class="jumbotron">
+<div class="container">
+    <div  class="row">
+        <div id="title" class="col-xs-12">
+            <h3 class="text-center col-lg-3"><a style="color: white" href="index.php">Home</a></h3>
+            <h3 class="text-center col-lg-3"><a style="color: white" href="register.php">Create an account</a></h3>
+            <h3 class="text-center col-lg-3"><a style="color: white" href="search.php">Search for someone</a></h3>
+            <h3 class="text-center col-lg-3"><a style="color: white" href="login.php">Log in</a></h3>
+    <div id="content" class="col-xs-6 col-sm-9 col-md-10"></div></div></div></div></div>';
+    }
+else echo '
+<div class="jumbotron text-center">
+<div class="container">
+    <div  class="row">
+        <div id="title" class="col-xs-12">
+            <h3 class="text-center col-lg-3"><a style="color: white" href="index.php">Home</a></h3>
+            <h3 class="text-center col-lg-3"><a style="color: white" href="friends.php">Friends</a></h3>
+            <h3 class="text-center col-lg-3"><a style="color: white" href="newPeople.php">See pending requests</a></h3>
+            <h3 class="text-center col-lg-2"><a style="color: white" href="search.php">Search</a></h3>
+            <h3 class="text-center col-lg-1"><form method="post" action="" class="form text-primary">
+                <input class="btn btn-primary" type="submit" name="logoutbutton" value="Logout">
+            </form></h3>    
+                    
+         
+
+<div id="content" class="col-xs-6 col-sm-9 col-md-10"></div></div></div></div></div>';
+

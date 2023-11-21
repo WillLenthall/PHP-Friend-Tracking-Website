@@ -1,0 +1,74 @@
+<?php require('template/header.phtml') ?>
+<link href="../css/myStyle.css" rel="stylesheet">
+
+
+<h3 id="test" class="text-center">See who is where</h3>
+
+
+
+    <table id="table" class="table table-hover">
+        <thead> <tr> <th class="h3 text-center">Username</th> <th class="h3 text-center">First name</th> <th class="hidden-xs h3 text-center">Last name</th> <th class="h3 hidden-sm hidden-xs text-center">Email address</th> <th class="h3 text-center">Photo</th></tr>
+        </thead>
+        <button class="center-block" id="openMap">Show Friends' Locations</button>
+        <tr><div id="myModal" class="modal"><div id="" class="modal-content"><div class="map" id="Map" style="width:100%;height:100%"></div>
+
+                    <span class="close">&times;</span>
+
+        <tbody>
+        <?php foreach ($view->friends as $friendData) {
+            echo   '
+                 
+                        
+
+                <td id="friendTable" class="h5 col-sm-3 text-center">' .   $friendData->getUsername() .
+                '</td> <td id="friendTable" class="h5 col-sm-3 text-center">' . $friendData->getFirstName() .
+                '</td> <td id="friendTable" class="h5 col-sm-3 hidden-xs text-center">' . $friendData->getLastName() .
+                '</td> <td id="friendTable" class="h5 hidden-sm hidden-xs text-center">' . $friendData->getEmail() .
+                '</td> <td><img class="center-block" src="' . $friendData->getImgPath() .'" height=125 width=125></td></img>'.
+                '</td> </td></div></div> </tr>';
+        } ?>
+
+
+
+        
+        </tbody>
+
+
+                    <textarea class="hidden" id="lat" name="lat"></textarea>
+                    <textarea class="hidden" id="long" name="long"></textarea>
+                    <textarea class="hidden" id="message" name="long"></textarea>
+
+                    <?php
+                    echo $view->modal;
+                    echo $view->getMap;
+                    echo $view->markers;
+                    echo $view->markers2;
+                    echo $view->setLoc;
+                    ?>
+
+<script>
+
+setInterval(sendLat, 20000);
+
+    function sendLat() {
+        var file = "location.php";
+        var lat = document.getElementById("lat").value;
+        var long = document.getElementById("long").value;
+        fetch (
+            file, {
+                method: "POST",
+                body : JSON.stringify({lat, long}),
+                headers : {"Content-Type" : "application/json;charset=utf-8"}
+            }
+        ).then(res=>res.text()).then(function(resp) {
+            document.getElementById("message").innerHTML = resp;
+        });
+    }
+</script>
+
+
+
+
+
+
+<?php require('template/footer.phtml') ?>
